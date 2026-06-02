@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/public/fonts/Inter_18pt-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/public/fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('/public/fonts/Poppins-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('/public/fonts/Poppins-SemiBold.ttf');
+}
+
+@theme {
+
+    /* FONT */
+    --font-barlow: "Barlow", sans-serif;
+    --font-poppins: "Poppins", sans-serif;
+    --font-poppins-bold: "Poppins-Bold", sans-serif;
+    --font-poppins-semibold: "Poppins-SemiBold", sans-serif;
+    --font-Barlow-extrabold: "Barlow-semiBold", sans-serif;
+
+    /* PRIMARY DOUBLEYOU.CAKE THEME */
+    --color-primary: #4A2C2A;
+    --color-secondary: #8B5E3C;
+    --color-accent: #C08B5C;
+
+    /* SOFT COLORS */
+    --color-base: #FFFFFF;
+    --color-base2: #FFFBF5;
+    --color-cream: #FDF5E6;
+    --color-border: #EBD9C1;
+
+    /* TEXT */
+    --color-dua: #2B2B2B;
+    --color-satu: #6B4E4C;
+
+    /* STATUS */
+    --color-success: #22C55E;
+    --color-warning: #F59E0B;
+    --color-danger: #EF4444;
+    --color-info: #3B82F6;
+
+    /* BADGE */
+    --color-badge: #F3E8DA;
+    --color-alert: #DC2626;
+    --color-active: #DCFCE7;
+
+    /* HOVER GRADIENT */
+    --gradient-primary:
+        linear-gradient(135deg,
+            #4A2C2A 0%,
+            #8B5E3C 50%,
+            #C08B5C 100%);
+}
+
+/* GLOBAL */
+
+body {
+    font-family: var(--font-poppins);
+    background: var(--color-base2);
+    color: var(--color-dua);
+}
+
+/* BUTTON HOVER */
+
+.btn-theme-hover {
+    transition: all 0.3s ease;
+}
+
+.btn-theme-hover:hover {
+    background: linear-gradient(135deg,
+            #4A2C2A 0%,
+            #8B5E3C 50%,
+            #C08B5C 100%);
+
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(74, 44, 42, 0.25);
+}

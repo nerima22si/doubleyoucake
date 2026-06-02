@@ -1,86 +1,296 @@
-import { Routes, Route } from "react-router-dom";
-import MainLayout from "./components/MainLayouts";
-import Dashboard from "./pages/Dashboard";
-import AccountManagement from "./pages/AccountManagement";
-import SalesInsight from "./pages/SalesInsight";
-import OrderManagement from "./pages/OrderManagement";
-import PromoManagement from "./pages/PromoManagement";
-import TriggerManagement from "./pages/TriggerManagement";
-import FeedbackFAQManagement from "./pages/FeedbackFAQManagement";
-import LoyaltyManagement from "./pages/LoyaltyManagement";
+// src/App.jsx
 
-import CampaignManagement from "./pages/CampaignManagement";
-import ProductManagement from "./pages/ProductManagement";
-import BroadcastTriggerMarketing from "./pages/BroadcastTriggerMarketing";
+import { Routes, Route, Navigate } from "react-router-dom";
 
+/* LAYOUT */
 
-import KasirPage from "./pages/KasirPage";
-import AccountDetail from "./pages/AccountDetail";
-import DetailLoyalty from "./pages/DetailLoyalty";
+import MainLayout from "./Layout/MainLayouts";
+import MainLayoutCustomer from "./pages/Customer/Layout/MainLayoutCustomer";
+import MainLayoutCustomerLogin from "./Layout/customer/MainLayoutsCust";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Forgot from "./pages/Forgot";
-import Error from "./pages/Error";
-import Unauthorized from "./pages/Unauthorized";
-import MarketingAutomation from "./pages/MarketingAutomation";
-import TambahKontakForm from "./pages/TambahKontakForm";
-import AccountSettings from "./pages/AccountSettings";
-import PelangganDashboard from "./pages/Customer/PelangganDashboard";
-import MainLayoutCustomer from "./components/MainLayoutCustomer";
-import BelanjaPage from "./pages/Customer/BelanjaKategoriPage";
-import BelanjaPerKategori from "./pages/Customer/BelanjaPerKategori";
-import CashierForm from "./pages/CashierForm";
-import Checkout from "./pages/Customer/Checkout";
-import RiwayatTransaksi from "./pages/Customer/RiwayatTransaksi";
-import DetailTransaksi from "./pages/Customer/DetailTransaksi";
-import PromoCustomer from "./pages/Customer/PromoCustomer";
-import Complain from "./pages/Customer/Complain";
+/* AUTH */
 
+import Login from "./pages/Auth/Login/Login";
+import Register from "./pages/Auth/Register/Register";
+import Forgot from "./pages/Auth/Login/Forgot";
+import AuthCallback from "./pages/Auth/AuthCallback";
 
+/* ERROR */
+
+import Error from "./pages/Auth/Error";
+import Unauthorized from "./pages/Auth/Unauthorized";
+
+/* PROFILE */
+
+import Profile from "./pages/Auth/profile/Profile";
+
+/* ROUTE PROTECTOR */
+
+import CustomerRoute from "./routes/CustomerRoute";
+import AdminRoute from "./routes/AdminRoute";
+
+/* ========================= */
+/* ADMIN PAGES */
+/* ========================= */
+
+import DashboardAdmin from "./pages/Admin/Dashboard";
+
+import OrderManagementMain from "./pages/Admin/order-management/OrderManagementMain";
+import OrderManagementDetail from "./pages/Admin/order-management/Ordermanagementdetail";
+
+import ProductManagement from "./pages/Admin/product-management/ProductManagement";
+
+import KeuanganPage from "./pages/Admin/financial-management/ManajemenKeuangan";
+
+/* ========================= */
+/* CUSTOMER PUBLIC */
+/* ========================= */
+
+import HomePage from "./pages/Customer/CustomerPage/Home";
+import CustomerPage from "./pages/Customer/Dashboard";
+import KatalogPage from "./pages/Customer/CustomerPage/KatalogPage";
+// import OrderPage from "./pages/Customer/CustomerPage/HalamanOrder";
+import TentangKamiPage from "./pages/Customer/CustomerPage/TentangKami";
+
+/* ========================= */
+/* CUSTOMER LOGIN */
+/* ========================= */
+
+import CartPage from "./pages/Customer/Pages/Dashboard/order/CartPage";
+import CheckoutPage from "./pages/Customer/Pages/Dashboard/order/CheckoutPage";
+import MyOrders from "./pages/Customer/Pages/Dashboard/order/MyOrders";
+import OrderDetail from "./pages/Customer/Pages/Dashboard/order/OrderDetail";
+import CustomerProducts from "./pages/Customer/Pages/Dashboard/order/CustomerProducts";
+import AdminOrders from "./pages/Admin/order-management/OrderManagementMain";
+import CustDashboard from "./pages/Customer/Dashboard";
+import CustomerChatPage from "./pages/Customer/chat/CustomerChatPage";
+import AdminChatList from "./pages/Admin/chat-management/AdminChatList";
+import AdminChatRoom from "./pages/Admin/chat-management/AdminChatRoom";
+import InventoryManagementMain from "./pages/Admin/inventory-management/InventoryManagementMain";
+import CashierLayout from "./pages/Cashier/CashierLayout";
+import CashierDashboard from "./pages/Cashier/CashierDashboard";
+import CashierOrders from "./pages/Cashier/CashierOrders";
+import CashierClosing from "./pages/Cashier/CashierClosing";
+import POSSystem from "./pages/Cashier/POSsystem";
+import CashierRoute from "./routes/CashierRoute";
+import OrderPayment from "./pages/Admin/order-management/OrderPayment";
 
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot" element={<Forgot />} />
 
-      <Route element={<MainLayout />}>
-        <Route path="/dashboard/admin" element={<Dashboard />} />
-        <Route path="/account-management" element={<AccountManagement />} />
-        <Route path="/account-management/:id" element={<AccountDetail />} />
-        <Route path="/sales-insight" element={<SalesInsight />} />
-        <Route path="/order-management" element={<OrderManagement />} />
-        <Route path="/promo-management" element={<PromoManagement />} />
-        <Route path="/campaign" element={<CampaignManagement />} />
-        <Route path="/broadtrigger-marketing" element={<BroadcastTriggerMarketing />} />
-        <Route path="/trigger-marketing" element={<TriggerManagement />} />
-        <Route path="/feedback-faq" element={<FeedbackFAQManagement />} />
-        <Route path="/loyalty" element={<LoyaltyManagement />} />
-        <Route path="/loyalty/:id" element={<DetailLoyalty />} />
-        <Route path="/marketing" element={<MarketingAutomation />} />
-        <Route path="/marketingform" element={<TambahKontakForm />} />
-        <Route path="/settings" element={<AccountSettings />} />
-        <Route path="/products" element={<ProductManagement />} />
-    
+      {/* ====================================================== */}
+      {/* DEFAULT REDIRECT */}
+      {/* ====================================================== */}
+
+      <Route
+        path="/dashboard"
+        element={<Navigate to="/dashboard/admin" />}
+      />
+
+      {/* ====================================================== */}
+      {/* AUTH */}
+      {/* ====================================================== */}
+
+      <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      <Route
+        path="/forgot"
+        element={<Forgot />}
+      />
+
+      <Route
+        path="/auth/callback"
+        element={<AuthCallback />}
+      />
+
+      {/* ====================================================== */}
+      {/* ADMIN */}
+      {/* ====================================================== */}
+
+      <Route
+        element={
+          <AdminRoute>
+            <MainLayout />
+          </AdminRoute>
+        }
+      >
+
+        <Route
+          path="/dashboard/admin"
+          element={<DashboardAdmin />}
+        />
+
+        {/* ORDER */}
+
+        <Route
+          path="/management-order"
+          element={<AdminOrders />}
+        />
+
+
+
+        <Route
+          path="/management-order/:id"
+          element={<OrderManagementDetail />}
+        />
+
+        {/* PRODUCT */}
+
+        <Route
+          path="/management-product"
+          element={<ProductManagement />}
+        />
+        <Route
+          path="/management-inventory"
+          element={<InventoryManagementMain />}
+        />
+        <Route
+          path="/management-inventory"
+          element={<InventoryManagementMain />}
+        />
+
+        {/* FINANCIAL */}
+
+        <Route
+          path="/management-financial"
+          element={<KeuanganPage />}
+        />
+        <Route
+          path="/management-payment"
+          element={<OrderPayment />}
+        />
+
+        {/* PROFILE */}
+
+        <Route
+          path="/profile"
+          element={<Profile />}
+        />
+
+        <Route path="/admin/chat" element={<AdminChatList />} />
+        <Route path="/admin/chat/:roomId" element={<AdminChatRoom />} />
+
       </Route>
+
+      {/* ====================================================== */}
+      {/* CUSTOMER LOGIN */}
+      {/* ====================================================== */}
+
+      <Route
+        element={
+          <CustomerRoute>
+            <MainLayoutCustomerLogin />
+          </CustomerRoute>
+        }
+      >
+
+        <Route
+          path="/customer/dashboard"
+          element={<CustDashboard />}
+        />
+        <Route
+          path="/customer/cart"
+          element={<CartPage />}
+        />
+        <Route
+          path="/customer/cart/checkout"
+          element={<CheckoutPage />}
+        />
+        <Route
+          path="/customer/my-orders"
+          element={<MyOrders />}
+        />
+        <Route
+          path="/customer/my-orders/:id"
+          element={<OrderDetail />}
+        />
+        <Route
+          path="/customer/products"
+          element={<CustomerProducts />}
+        />
+        <Route
+          path="/customer/chat"
+          element={<CustomerChatPage />}
+        />
+        <Route
+          path="/customer/profile"
+          element={<Profile />}
+        />
+
+      </Route>
+      <Route
+        path="/cashier"
+        element={
+          <CashierRoute>
+            <CashierLayout />
+          </CashierRoute>
+      
+        }
+      >
+
+        <Route path="dashboard/cashier" element={<CashierDashboard/>} />
+        <Route path="POS" element={<POSSystem />} />
+        <Route path="orders" element={<CashierOrders />} />
+        <Route path="closing" element={<CashierClosing/>} />
+      </Route>
+
+      {/* ====================================================== */}
+      {/* PUBLIC CUSTOMER */}
+      {/* ====================================================== */}
+
       <Route element={<MainLayoutCustomer />}>
-        <Route path="/customer" element={<PelangganDashboard />} />
-        <Route path="/customer/belanja" element={<BelanjaPage />} />
-        <Route path="/belanja/id/:kategori" element={<BelanjaPerKategori />} />
-        <Route path="/customer/belanja" element={<BelanjaPage />} />
-        <Route path="/customer/checkout" element={<Checkout />} />
-        <Route path="/customer/riwayat-transaksi" element={<RiwayatTransaksi />} />
-        <Route path="/customer/riwayat-transaksi/:id" element={<DetailTransaksi />} />
-        <Route path="/customer/promo" element={<PromoCustomer />} />
-        <Route path="/customer/complain" element={<Complain />} />
+
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
+
+        <Route
+          path="/doubleyoucake"
+          element={<CustomerPage />}
+        />
+
+        <Route
+          path="/katalog"
+          element={<KatalogPage />}
+        />
+
+        {/* <Route
+          path="/order"
+          element={<OrderManagementMain />}
+        /> */}
+
+        <Route
+          path="/tentang-kami"
+          element={<TentangKamiPage />}
+        />
+
       </Route>
-      <Route path="/kasirpage" element={<KasirPage />} />
-      <Route path="/kasir" element={<CashierForm />} />
-      <Route path="*" element={<Error />} />{" "}
-      <Route path="/401" element={<Unauthorized />} />
+
+      {/* ====================================================== */}
+      {/* ERROR */}
+      {/* ====================================================== */}
+
+      <Route
+        path="/401"
+        element={<Unauthorized />}
+      />
+
+      <Route
+        path="*"
+        element={<Error />}
+      />
+
     </Routes>
   );
 }
