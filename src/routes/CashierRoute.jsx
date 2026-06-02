@@ -1,6 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-
+import { useAuth } from "../contexts/AuthContext";
 
 export default function CashierRoute({ children }) {
     const { user, profile, loading } = useAuth();
@@ -13,9 +12,12 @@ export default function CashierRoute({ children }) {
         );
     }
 
-    if (!user) return <Navigate to="/login" replace />;
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
 
     const role = String(profile?.role || "").trim().toLowerCase();
+
     if (role !== "cashier" && role !== "admin") {
         return <Navigate to="/401" replace />;
     }
