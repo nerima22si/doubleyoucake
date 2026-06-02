@@ -14,6 +14,7 @@ import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
 import Forgot from "./pages/Auth/Login/Forgot";
 import AuthCallback from "./pages/Auth/AuthCallback";
+import { AuthProvider } from "./contexts/AuthContext";
 
 /* ERROR */
 
