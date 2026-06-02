@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+// import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../Contexts/AuthContext";
 
 export default function CustomerRoute({ children }) {
     const { user, profile, loading } = useAuth();
