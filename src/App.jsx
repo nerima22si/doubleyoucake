@@ -25,7 +25,7 @@ import CashierRoute from "./routes/CashierRoute";
 
 /* ADMIN */
 import DashboardAdmin from "./pages/Admin/Dashboard";
-import OrderManagementDetail from "./pages/Admin/order-management/Ordermanagementdetail";
+import OrderManagementDetail from "./pages/Admin/order-management/OrderManagementDetail";
 import AdminOrders from "./pages/Admin/order-management/OrderManagementMain";
 import ProductManagement from "./pages/Admin/product-management/ProductManagement";
 import InventoryManagementMain from "./pages/Admin/inventory-management/InventoryManagementMain";
