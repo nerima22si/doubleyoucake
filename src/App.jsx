@@ -57,6 +57,7 @@ import CashierOrders from "./pages/Cashier/CashierOrders";
 import CashierClosing from "./pages/Cashier/CashierClosing";
 import POSSystem from "./pages/Cashier/POSsystem";
 import ForgotPassword from "./pages/Auth/Forgot";
+import ResetPassword from "./pages/Auth/ResetPassword";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* ADMIN */}
       <Route
