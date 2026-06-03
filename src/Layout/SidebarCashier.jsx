@@ -18,7 +18,7 @@ export default function SidebarCashier({ open, setOpen }) {
     const menu = [
         {
             name: "Cashier Dashboard",
-            path: "/dashboard/cashier",
+            path: "dashboard/cashier",
             icon: <LayoutDashboard size={20} />,
         },
         {
