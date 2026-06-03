@@ -112,7 +112,7 @@ const NavbarCust = () => {
                         </Link>
 
                         <Link
-                            to="/TentangKami"
+                            to="/tentang-kami"
                             onClick={() => setIsMenuOpen(false)}
                             className="hover:text-[#8B5E3C]"
                         >
