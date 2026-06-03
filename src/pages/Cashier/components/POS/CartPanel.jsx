@@ -19,7 +19,7 @@ export default function CartPanel({
     onOpenBill,
 }) {
     return (
-        <div className="w-full xl:w-[380px] 2xl:w-[420px] bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-5 flex flex-col shrink-0 max-h-none xl:max-h-[calc(100vh-48px)]">
+        <div className="w-full bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-3xl p-4 sm:p-5 flex flex-col shrink-0 h-auto md:h-[calc(100vh-120px)]">
             <div className="flex items-center justify-between gap-3 mb-4 sm:mb-5">
                 <div className="flex items-center gap-3 min-w-0">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#F6F1EC] flex items-center justify-center text-[#8A5F41] shrink-0">
@@ -30,6 +30,7 @@ export default function CartPanel({
                         <h2 className="text-xl sm:text-2xl font-black text-[#4A2C2A]">
                             Cart
                         </h2>
+
                         <p className="text-xs sm:text-sm text-gray-400">
                             {cart.length} item
                         </p>
@@ -46,9 +47,9 @@ export default function CartPanel({
                 )}
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-3 pr-0 sm:pr-1 min-h-[180px] max-h-[320px] xl:max-h-none">
+            <div className="flex-1 overflow-y-auto space-y-3 pr-0 sm:pr-1 min-h-[180px]">
                 {cart.length === 0 ? (
-                    <div className="min-h-[180px] flex items-center justify-center text-gray-400 font-bold text-center text-sm">
+                    <div className="min-h-[180px] md:h-full flex items-center justify-center text-gray-400 font-bold text-center text-sm">
                         Cart masih kosong
                     </div>
                 ) : (
@@ -62,6 +63,7 @@ export default function CartPanel({
                                     <h3 className="font-black text-[#4A2C2A] text-sm sm:text-base line-clamp-2">
                                         {item.name}
                                     </h3>
+
                                     <p className="text-xs sm:text-sm text-[#8A5F41] font-bold mt-1">
                                         {formatRupiah(item.price)}
                                     </p>
@@ -112,7 +114,7 @@ export default function CartPanel({
                     <Row label="Total" value={formatRupiah(total)} bold />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 2xl:grid-cols-2 gap-3">
                     <button
                         onClick={onOpenBill}
                         disabled={cart.length === 0}

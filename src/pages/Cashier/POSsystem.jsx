@@ -28,11 +28,19 @@ export default function POSSystem() {
     });
 
     const showDialog = ({ type = "info", title, message }) => {
-        setDialog({ open: true, type, title, message });
+        setDialog({
+            open: true,
+            type,
+            title,
+            message,
+        });
     };
 
     const closeDialog = () => {
-        setDialog((prev) => ({ ...prev, open: false }));
+        setDialog((prev) => ({
+            ...prev,
+            open: false,
+        }));
     };
 
     useEffect(() => {
@@ -184,6 +192,7 @@ export default function POSSystem() {
         }));
 
         const { error } = await supabase.from("order_items").insert(itemsPayload);
+
         if (error) throw error;
     };
 
@@ -311,7 +320,7 @@ export default function POSSystem() {
 
     return (
         <>
-            <div className="min-h-[calc(100vh-32px)] lg:h-[calc(100vh-48px)] lg:overflow-hidden flex flex-col xl:flex-row gap-4 lg:gap-5">
+            <div className="flex flex-col md:flex-row gap-4 lg:gap-5 min-h-[calc(100vh-100px)]">
                 <div className="flex-1 flex flex-col min-w-0">
                     <div className="mb-4 sm:mb-5">
                         <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
@@ -337,7 +346,7 @@ export default function POSSystem() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:overflow-y-auto pr-0 lg:pr-2 pb-6 lg:pb-20">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 overflow-y-auto pr-0 md:pr-2 pb-6">
                         {filteredProducts.length === 0 ? (
                             <div className="col-span-full bg-white border border-[#E7DED7] rounded-3xl p-8 sm:p-10 text-center text-gray-400 font-bold">
                                 Produk tidak ditemukan.
@@ -354,7 +363,7 @@ export default function POSSystem() {
                     </div>
                 </div>
 
-                <div className="w-full xl:w-[380px] 2xl:w-[420px] shrink-0">
+                <div className="w-full md:w-[350px] lg:w-[380px] 2xl:w-[420px] shrink-0 sticky top-6 self-start">
                     <CartPanel
                         cart={cart}
                         subtotal={subtotal}
