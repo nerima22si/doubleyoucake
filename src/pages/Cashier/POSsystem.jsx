@@ -360,9 +360,9 @@ export default function POSSystem() {
                 `}
             </style>
 
-            <div className="h-[calc(100vh-100px)] flex flex-col md:flex-row gap-4 lg:gap-5 overflow-hidden">
+            <div className="h-[calc(100vh-100px)] flex flex-col md:flex-row gap-3 lg:gap-5 overflow-hidden">
                 <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-                    <div className="mb-4 sm:mb-5 shrink-0">
+                    <div className="mb-3 sm:mb-4 shrink-0">
                         <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                             Point Of Sale
                         </p>
@@ -388,7 +388,7 @@ export default function POSSystem() {
                         />
                     </div>
 
-                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 overflow-y-auto pr-0 md:pr-2 pb-6">
+                    <div className="flex-1 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-3 2xl:grid-cols-4 gap-2 sm:gap-3 overflow-y-auto pr-0 md:pr-2 pb-6">
                         {filteredProducts.length === 0 ? (
                             <div className="col-span-full bg-white border border-[#E7DED7] rounded-3xl p-8 sm:p-10 text-center text-gray-400 font-bold">
                                 Produk tidak ditemukan.
@@ -405,7 +405,7 @@ export default function POSSystem() {
                     </div>
                 </div>
 
-                <div className="w-full md:w-[350px] lg:w-[380px] 2xl:w-[420px] shrink-0 h-full">
+                <div className="w-full md:w-[330px] lg:w-[360px] xl:w-[380px] 2xl:w-[420px] shrink-0 h-full">
                     <CartPanel
                         cart={cart}
                         subtotal={subtotal}
@@ -450,6 +450,7 @@ function ThermalReceipt({ data }) {
                 <h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>
                     Double You Cake
                 </h2>
+
                 <p style={{ margin: 0, fontSize: "11px" }}>
                     Thermal Receipt
                 </p>
@@ -469,6 +470,7 @@ function ThermalReceipt({ data }) {
             {(data.cart || []).map((item) => (
                 <div key={item.id} style={{ fontSize: "12px", marginBottom: "6px" }}>
                     <div style={{ fontWeight: "bold" }}>{item.name}</div>
+
                     <RowPrint
                         label={`${item.quantity} x ${formatRupiah(item.price)}`}
                         value={formatRupiah(Number(item.price || 0) * item.quantity)}
@@ -484,14 +486,8 @@ function ThermalReceipt({ data }) {
 
             {data.paymentMethod === "cash" && (
                 <>
-                    <RowPrint
-                        label="Cash"
-                        value={formatRupiah(data.cashReceived)}
-                    />
-                    <RowPrint
-                        label="Change"
-                        value={formatRupiah(data.change)}
-                    />
+                    <RowPrint label="Cash" value={formatRupiah(data.cashReceived)} />
+                    <RowPrint label="Change" value={formatRupiah(data.change)} />
                 </>
             )}
 
