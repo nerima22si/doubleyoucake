@@ -83,22 +83,22 @@ export default function CashierOrders() {
         const { data, error } = await supabase
             .from("orders")
             .select(`
-        id,
-        customer_name,
-        order_source,
-        status,
-        payment_status,
-        payment_method,
-        total_price,
-        created_at,
-        paid_at,
-        order_items (
-          id,
-          product_name,
-          price,
-          quantity
-        )
-      `)
+                id,
+                customer_name,
+                order_source,
+                status,
+                payment_status,
+                payment_method,
+                total_price,
+                created_at,
+                paid_at,
+                order_items (
+                    id,
+                    product_name,
+                    price,
+                    quantity
+                )
+            `)
             .eq("order_source", "offline")
             .order("created_at", { ascending: false });
 
@@ -180,63 +180,63 @@ export default function CashierOrders() {
         const itemRows = items
             .map(
                 (item) => `
-        <div class="row">
-          <span>${item.product_name || "Produk"} x ${item.quantity}</span>
-          <strong>${formatRupiah(
+                    <div class="row">
+                        <span>${item.product_name || "Produk"} x ${item.quantity}</span>
+                        <strong>${formatRupiah(
                     Number(item.price || 0) * Number(item.quantity || 0)
                 )}</strong>
-        </div>
-      `
+                    </div>
+                `
             )
             .join("");
 
         const html = `
-      <html>
-        <head>
-          <title>Receipt</title>
-          <style>
-            body { font-family: Arial, sans-serif; width: 300px; margin: 0 auto; padding: 16px; color: #111; }
-            .center { text-align: center; }
-            .line { border-top: 1px dashed #111; margin: 10px 0; }
-            .row { display: flex; justify-content: space-between; font-size: 13px; margin: 6px 0; gap: 10px; }
-            h2, p { margin: 4px 0; }
-            .small { font-size: 12px; }
-          </style>
-        </head>
-        <body>
-          <div class="center">
-            <h2>Double You Cake</h2>
-            <p>Order Receipt</p>
-          </div>
+            <html>
+                <head>
+                    <title>Receipt</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; width: 300px; margin: 0 auto; padding: 16px; color: #111; }
+                        .center { text-align: center; }
+                        .line { border-top: 1px dashed #111; margin: 10px 0; }
+                        .row { display: flex; justify-content: space-between; font-size: 13px; margin: 6px 0; gap: 10px; }
+                        h2, p { margin: 4px 0; }
+                        .small { font-size: 12px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="center">
+                        <h2>Double You Cake</h2>
+                        <p>Order Receipt</p>
+                    </div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="row"><span>Order</span><strong>#${order.id}</strong></div>
-          <div class="row"><span>Customer</span><strong>${order.customer_name || "Walk In Customer"}</strong></div>
-          <div class="row"><span>Date</span><strong>${formatDate(order.created_at)}</strong></div>
-          <div class="row"><span>Payment</span><strong>${order.payment_method || "-"}</strong></div>
-          <div class="row"><span>Status</span><strong>${order.payment_status || "-"}</strong></div>
+                    <div class="row"><span>Order</span><strong>#${order.id}</strong></div>
+                    <div class="row"><span>Customer</span><strong>${order.customer_name || "Walk In Customer"}</strong></div>
+                    <div class="row"><span>Date</span><strong>${formatDate(order.created_at)}</strong></div>
+                    <div class="row"><span>Payment</span><strong>${order.payment_method || "-"}</strong></div>
+                    <div class="row"><span>Status</span><strong>${order.payment_status || "-"}</strong></div>
 
-          <div class="line"></div>
-          ${itemRows}
-          <div class="line"></div>
+                    <div class="line"></div>
+                    ${itemRows}
+                    <div class="line"></div>
 
-          <div class="row"><span>Total</span><strong>${formatRupiah(order.total_price)}</strong></div>
+                    <div class="row"><span>Total</span><strong>${formatRupiah(order.total_price)}</strong></div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="center">
-            <p>Terima kasih</p>
-            <p class="small">Double You Cake</p>
-          </div>
+                    <div class="center">
+                        <p>Terima kasih</p>
+                        <p class="small">Double You Cake</p>
+                    </div>
 
-          <script>
-            window.print();
-            setTimeout(() => window.close(), 500);
-          </script>
-        </body>
-      </html>
-    `;
+                    <script>
+                        window.print();
+                        setTimeout(() => window.close(), 500);
+                    </script>
+                </body>
+            </html>
+        `;
 
         const win = window.open("", "_blank", "width=400,height=600");
 
@@ -255,45 +255,45 @@ export default function CashierOrders() {
 
     return (
         <>
-            <div>
-                <div className="mb-6">
-                    <p className="text-xs font-black text-[#8A5F41] uppercase tracking-widest">
+            <div className="w-full">
+                <div className="mb-5 sm:mb-6">
+                    <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                         Cashier Open Bill
                     </p>
 
-                    <h1 className="text-4xl font-black text-[#4A2C2A] mt-1">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#4A2C2A] mt-1">
                         Cashier Orders
                     </h1>
 
-                    <p className="text-sm text-gray-500 font-semibold mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
                         Kasir hanya bisa konfirmasi pembayaran dan cancel Open Bill.
                     </p>
                 </div>
 
-                <div className="bg-white border border-[#E7DED7] rounded-[2rem] p-5">
+                <div className="bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5">
                     <div className="mb-5 flex items-center gap-3 bg-[#FAFAFA] border border-[#E7DED7] rounded-2xl px-4 py-3">
-                        <Search size={18} className="text-gray-400" />
+                        <Search size={18} className="text-gray-400 shrink-0" />
 
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Cari open bill, customer, atau status..."
-                            className="w-full bg-transparent outline-none text-sm font-semibold text-[#4A2C2A]"
+                            className="w-full bg-transparent outline-none text-xs sm:text-sm font-semibold text-[#4A2C2A]"
                         />
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full min-w-[1000px] text-sm">
+                        <table className="w-full min-w-[950px] text-sm">
                             <thead>
                                 <tr className="bg-[#FAFAFA] text-gray-500">
-                                    <th className="text-left px-5 py-4 font-black">Order</th>
-                                    <th className="text-left px-5 py-4 font-black">Customer</th>
-                                    <th className="text-left px-5 py-4 font-black">Items</th>
-                                    <th className="text-left px-5 py-4 font-black">Total</th>
-                                    <th className="text-left px-5 py-4 font-black">Status</th>
-                                    <th className="text-left px-5 py-4 font-black">Payment</th>
-                                    <th className="text-left px-5 py-4 font-black">Created</th>
-                                    <th className="text-right px-5 py-4 font-black">Action</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Order</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Customer</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Items</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Total</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Status</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Payment</th>
+                                    <th className="text-left px-4 lg:px-5 py-4 font-black">Created</th>
+                                    <th className="text-right px-4 lg:px-5 py-4 font-black">Action</th>
                                 </tr>
                             </thead>
 
@@ -318,48 +318,48 @@ export default function CashierOrders() {
                                                 key={order.id}
                                                 className="border-t border-[#F3F3F3] hover:bg-[#FCFAF8]"
                                             >
-                                                <td className="px-5 py-4 font-black text-[#4A2C2A]">
+                                                <td className="px-4 lg:px-5 py-4 font-black text-[#4A2C2A]">
                                                     #{order.id}
                                                 </td>
 
-                                                <td className="px-5 py-4 font-semibold">
+                                                <td className="px-4 lg:px-5 py-4 font-semibold">
                                                     {order.customer_name || "Walk In Customer"}
                                                 </td>
 
-                                                <td className="px-5 py-4">
+                                                <td className="px-4 lg:px-5 py-4">
                                                     <div className="font-bold text-[#4A2C2A]">
                                                         {(order.order_items || []).length} item
                                                     </div>
-                                                    <p className="text-xs text-gray-400 line-clamp-1">
+                                                    <p className="text-xs text-gray-400 line-clamp-1 max-w-[220px]">
                                                         {(order.order_items || [])
                                                             .map((item) => `${item.product_name} x${item.quantity}`)
                                                             .join(", ") || "-"}
                                                     </p>
                                                 </td>
 
-                                                <td className="px-5 py-4 font-black text-[#8A5F41]">
+                                                <td className="px-4 lg:px-5 py-4 font-black text-[#8A5F41]">
                                                     {formatRupiah(order.total_price)}
                                                 </td>
 
-                                                <td className="px-5 py-4">
+                                                <td className="px-4 lg:px-5 py-4">
                                                     <StatusBadge status={order.status} />
                                                 </td>
 
-                                                <td className="px-5 py-4">
+                                                <td className="px-4 lg:px-5 py-4">
                                                     <PaymentBadge status={order.payment_status} />
                                                 </td>
 
-                                                <td className="px-5 py-4 text-xs text-gray-400 font-bold">
+                                                <td className="px-4 lg:px-5 py-4 text-xs text-gray-400 font-bold">
                                                     {formatDate(order.created_at)}
                                                 </td>
 
-                                                <td className="px-5 py-4">
+                                                <td className="px-4 lg:px-5 py-4">
                                                     <div className="flex justify-end gap-2">
                                                         {canAction && (
                                                             <>
                                                                 <button
                                                                     onClick={() => cancelOpenBill(order)}
-                                                                    className="px-4 py-2 rounded-xl bg-red-50 text-red-700 font-black flex items-center gap-2 hover:bg-red-100"
+                                                                    className="px-3 lg:px-4 py-2 rounded-xl bg-red-50 text-red-700 font-black flex items-center gap-2 hover:bg-red-100"
                                                                 >
                                                                     <Ban size={15} />
                                                                     Cancel
@@ -372,7 +372,7 @@ export default function CashierOrders() {
                                                                             order,
                                                                         })
                                                                     }
-                                                                    className="px-4 py-2 rounded-xl bg-[#4A2C2A] text-white font-black flex items-center gap-2"
+                                                                    className="px-3 lg:px-4 py-2 rounded-xl bg-[#4A2C2A] text-white font-black flex items-center gap-2"
                                                                 >
                                                                     <CheckCircle2 size={15} />
                                                                     Pay
@@ -382,7 +382,7 @@ export default function CashierOrders() {
 
                                                         <button
                                                             onClick={() => printOrderReceipt(order)}
-                                                            className="px-4 py-2 rounded-xl border border-[#E7DED7] font-black flex items-center gap-2"
+                                                            className="px-3 lg:px-4 py-2 rounded-xl border border-[#E7DED7] font-black flex items-center gap-2"
                                                         >
                                                             <Printer size={15} />
                                                             Print
@@ -509,11 +509,11 @@ function PaymentModal({ open, order, onClose, onSuccess, onError }) {
 
     return (
         <div className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center p-4">
-            <div className="w-full max-w-md bg-white rounded-[2rem] overflow-hidden">
-                <div className="px-6 py-5 bg-[#4A2C2A] text-white flex items-center justify-between">
+            <div className="w-full max-w-md bg-white rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
+                <div className="px-5 sm:px-6 py-5 bg-[#4A2C2A] text-white flex items-center justify-between gap-4">
                     <div>
-                        <h2 className="text-xl font-black">Confirm Payment</h2>
-                        <p className="text-sm text-white/70">Order #{order.id}</p>
+                        <h2 className="text-lg sm:text-xl font-black">Confirm Payment</h2>
+                        <p className="text-xs sm:text-sm text-white/70">Order #{order.id}</p>
                     </div>
 
                     <button onClick={onClose}>
@@ -521,7 +521,7 @@ function PaymentModal({ open, order, onClose, onSuccess, onError }) {
                     </button>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="p-5 sm:p-6 space-y-4">
                     <div className="bg-[#FAFAFA] border border-[#E7DED7] rounded-2xl p-4">
                         <div className="flex items-center gap-2 mb-3 text-[#4A2C2A] font-black">
                             <ReceiptText size={18} />
@@ -531,7 +531,7 @@ function PaymentModal({ open, order, onClose, onSuccess, onError }) {
                         {(order.order_items || []).map((item) => (
                             <div
                                 key={item.id}
-                                className="flex justify-between text-sm font-semibold mb-2"
+                                className="flex justify-between gap-3 text-xs sm:text-sm font-semibold mb-2"
                             >
                                 <span>
                                     {item.product_name} x {item.quantity}
@@ -554,33 +554,16 @@ function PaymentModal({ open, order, onClose, onSuccess, onError }) {
                         </label>
 
                         <div className="grid grid-cols-3 gap-2 mt-2">
-                            <PayButton
-                                active={method === "cash"}
-                                icon={<Banknote size={17} />}
-                                label="Cash"
-                                onClick={() => setMethod("cash")}
-                            />
-
-                            <PayButton
-                                active={method === "qris"}
-                                icon={<QrCode size={17} />}
-                                label="QRIS"
-                                onClick={() => setMethod("qris")}
-                            />
-
-                            <PayButton
-                                active={method === "transfer"}
-                                icon={<CreditCard size={17} />}
-                                label="Transfer"
-                                onClick={() => setMethod("transfer")}
-                            />
+                            <PayButton active={method === "cash"} icon={<Banknote size={17} />} label="Cash" onClick={() => setMethod("cash")} />
+                            <PayButton active={method === "qris"} icon={<QrCode size={17} />} label="QRIS" onClick={() => setMethod("qris")} />
+                            <PayButton active={method === "transfer"} icon={<CreditCard size={17} />} label="Transfer" onClick={() => setMethod("transfer")} />
                         </div>
                     </div>
 
-                    <div className="flex justify-end gap-2">
+                    <div className="flex flex-col sm:flex-row justify-end gap-2">
                         <button
                             onClick={onClose}
-                            className="px-5 py-3 rounded-2xl border border-[#E7DED7] font-black"
+                            className="w-full sm:w-auto px-5 py-3 rounded-2xl border border-[#E7DED7] font-black"
                         >
                             Cancel
                         </button>
@@ -588,7 +571,7 @@ function PaymentModal({ open, order, onClose, onSuccess, onError }) {
                         <button
                             onClick={submit}
                             disabled={loading}
-                            className="px-6 py-3 rounded-2xl bg-[#4A2C2A] text-white font-black disabled:opacity-50"
+                            className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-[#4A2C2A] text-white font-black disabled:opacity-50"
                         >
                             {loading ? "Saving..." : "Confirm Payment"}
                         </button>

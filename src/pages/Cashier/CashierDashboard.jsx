@@ -49,10 +49,7 @@ export default function CashierDashboard() {
 
         setStats({
             totalOrders: orders.length,
-            totalSales: orders.reduce(
-                (sum, o) => sum + Number(o.total_price || 0),
-                0
-            ),
+            totalSales: orders.reduce((sum, o) => sum + Number(o.total_price || 0), 0),
             cash: orders
                 .filter((o) => o.payment_method === "cash")
                 .reduce((sum, o) => sum + Number(o.total_price || 0), 0),
@@ -66,51 +63,27 @@ export default function CashierDashboard() {
     };
 
     return (
-        <div>
-            <div className="mb-6">
-                <p className="text-xs font-black text-[#8A5F41] uppercase tracking-widest">
+        <div className="w-full">
+            <div className="mb-5 sm:mb-6">
+                <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                     Cashier Overview
                 </p>
 
-                <h1 className="text-4xl font-black text-[#4A2C2A] mt-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#4A2C2A] mt-1">
                     Cashier Dashboard
                 </h1>
 
-                <p className="text-sm text-gray-500 font-semibold mt-1">
+                <p className="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
                     Ringkasan transaksi kasir hari ini.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <Card
-                    title="Orders Paid"
-                    value={stats.totalOrders}
-                    icon={<ReceiptText />}
-                />
-
-                <Card
-                    title="Total Sales"
-                    value={formatRupiah(stats.totalSales)}
-                    icon={<Wallet />}
-                />
-
-                <Card
-                    title="Cash"
-                    value={formatRupiah(stats.cash)}
-                    icon={<Wallet />}
-                />
-
-                <Card
-                    title="QRIS"
-                    value={formatRupiah(stats.qris)}
-                    icon={<QrCode />}
-                />
-
-                <Card
-                    title="Transfer"
-                    value={formatRupiah(stats.transfer)}
-                    icon={<CreditCard />}
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3 sm:gap-4">
+                <Card title="Orders Paid" value={stats.totalOrders} icon={<ReceiptText size={22} />} />
+                <Card title="Total Sales" value={formatRupiah(stats.totalSales)} icon={<Wallet size={22} />} />
+                <Card title="Cash" value={formatRupiah(stats.cash)} icon={<Wallet size={22} />} />
+                <Card title="QRIS" value={formatRupiah(stats.qris)} icon={<QrCode size={22} />} />
+                <Card title="Transfer" value={formatRupiah(stats.transfer)} icon={<CreditCard size={22} />} />
             </div>
         </div>
     );
@@ -118,19 +91,19 @@ export default function CashierDashboard() {
 
 function Card({ title, value, icon }) {
     return (
-        <div className="bg-white border border-[#E7DED7] rounded-[2rem] p-5 shadow-sm">
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-sm text-gray-400 font-bold">
+        <div className="bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5 shadow-sm">
+            <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-400 font-bold">
                         {title}
                     </p>
 
-                    <h2 className="text-xl font-black text-[#4A2C2A] mt-1">
+                    <h2 className="text-base sm:text-lg lg:text-xl font-black text-[#4A2C2A] mt-1 break-words">
                         {value}
                     </h2>
                 </div>
 
-                <div className="w-12 h-12 rounded-2xl bg-[#F6F1EC] text-[#8A5F41] flex items-center justify-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#F6F1EC] text-[#8A5F41] flex items-center justify-center shrink-0">
                     {icon}
                 </div>
             </div>

@@ -167,132 +167,133 @@ export default function CashierClosing() {
         const orderRows = orders
             .map(
                 (order) => `
-          <div class="row">
-            <span>#${order.id}</span>
-            <strong>${formatRupiah(order.total_price)}</strong>
-          </div>
-        `
+                    <div class="row">
+                        <span>#${order.id}</span>
+                        <strong>${formatRupiah(order.total_price)}</strong>
+                    </div>
+                `
             )
             .join("");
 
         const html = `
-      <html>
-        <head>
-          <title>Closing Receipt</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              width: 320px;
-              margin: 0 auto;
-              padding: 16px;
-              color: #111;
-            }
-            .center { text-align: center; }
-            .line { border-top: 1px dashed #111; margin: 10px 0; }
-            .row {
-              display: flex;
-              justify-content: space-between;
-              font-size: 13px;
-              margin: 6px 0;
-            }
-            h2, p { margin: 4px 0; }
-          </style>
-        </head>
-        <body>
-          <div class="center">
-            <h2>Double You Cake</h2>
-            <p>Closing Shift Receipt</p>
-          </div>
+            <html>
+                <head>
+                    <title>Closing Receipt</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            width: 320px;
+                            margin: 0 auto;
+                            padding: 16px;
+                            color: #111;
+                        }
+                        .center { text-align: center; }
+                        .line { border-top: 1px dashed #111; margin: 10px 0; }
+                        .row {
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 13px;
+                            margin: 6px 0;
+                            gap: 10px;
+                        }
+                        h2, p { margin: 4px 0; }
+                    </style>
+                </head>
+                <body>
+                    <div class="center">
+                        <h2>Double You Cake</h2>
+                        <p>Closing Shift Receipt</p>
+                    </div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="row">
-            <span>Closing ID</span>
-            <strong>#${closingData?.id || "-"}</strong>
-          </div>
+                    <div class="row">
+                        <span>Closing ID</span>
+                        <strong>#${closingData?.id || "-"}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Cashier</span>
-            <strong>${profile?.full_name || profile?.email || "Cashier"}</strong>
-          </div>
+                    <div class="row">
+                        <span>Cashier</span>
+                        <strong>${profile?.full_name || profile?.email || "Cashier"}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Open</span>
-            <strong>${formatDate(activeShift?.opened_at)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Open</span>
+                        <strong>${formatDate(activeShift?.opened_at)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Close</span>
-            <strong>${formatDate(new Date())}</strong>
-          </div>
+                    <div class="row">
+                        <span>Close</span>
+                        <strong>${formatDate(new Date())}</strong>
+                    </div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="row">
-            <span>Total Orders</span>
-            <strong>${summary.totalOrders}</strong>
-          </div>
+                    <div class="row">
+                        <span>Total Orders</span>
+                        <strong>${summary.totalOrders}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Cash Sales</span>
-            <strong>${formatRupiah(summary.cash)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Cash Sales</span>
+                        <strong>${formatRupiah(summary.cash)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>QRIS Sales</span>
-            <strong>${formatRupiah(summary.qris)}</strong>
-          </div>
+                    <div class="row">
+                        <span>QRIS Sales</span>
+                        <strong>${formatRupiah(summary.qris)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Transfer Sales</span>
-            <strong>${formatRupiah(summary.transfer)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Transfer Sales</span>
+                        <strong>${formatRupiah(summary.transfer)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Total Sales</span>
-            <strong>${formatRupiah(summary.total)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Total Sales</span>
+                        <strong>${formatRupiah(summary.total)}</strong>
+                    </div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="row">
-            <span>Opening Cash</span>
-            <strong>${formatRupiah(openingCash)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Opening Cash</span>
+                        <strong>${formatRupiah(openingCash)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Expected Cash</span>
-            <strong>${formatRupiah(summary.expectedCash)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Expected Cash</span>
+                        <strong>${formatRupiah(summary.expectedCash)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Cash Drawer</span>
-            <strong>${formatRupiah(cashInDrawer)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Cash Drawer</span>
+                        <strong>${formatRupiah(cashInDrawer)}</strong>
+                    </div>
 
-          <div class="row">
-            <span>Difference</span>
-            <strong>${formatRupiah(summary.difference)}</strong>
-          </div>
+                    <div class="row">
+                        <span>Difference</span>
+                        <strong>${formatRupiah(summary.difference)}</strong>
+                    </div>
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <p><strong>Orders:</strong></p>
-          ${orderRows || "<p>No orders</p>"}
+                    <p><strong>Orders:</strong></p>
+                    ${orderRows || "<p>No orders</p>"}
 
-          <div class="line"></div>
+                    <div class="line"></div>
 
-          <div class="center">
-            <p>Closing completed</p>
-          </div>
+                    <div class="center">
+                        <p>Closing completed</p>
+                    </div>
 
-          <script>
-            window.print();
-            setTimeout(() => window.close(), 500);
-          </script>
-        </body>
-      </html>
-    `;
+                    <script>
+                        window.print();
+                        setTimeout(() => window.close(), 500);
+                    </script>
+                </body>
+            </html>
+        `;
 
         const win = window.open("", "_blank", "width=420,height=700");
 
@@ -360,9 +361,18 @@ export default function CashierClosing() {
 
             printClosingReceipt(activeShift);
 
-            await supabase.auth.signOut();
-            navigate("/login");
+            if (shouldLogout) {
+                await supabase.auth.signOut();
+                navigate("/login");
+            } else {
+                showDialog({
+                    type: "success",
+                    title: "Closing Shift Berhasil",
+                    message: "Shift berhasil ditutup dan struk closing siap dicetak.",
+                });
 
+                navigate("/cashier/dashboard");
+            }
         } catch (error) {
             showDialog({
                 type: "error",
@@ -377,8 +387,8 @@ export default function CashierClosing() {
     if (loading) {
         return (
             <>
-                <div className="min-h-screen flex items-center justify-center">
-                    <p className="font-bold text-gray-400">
+                <div className="min-h-[60vh] flex items-center justify-center px-4">
+                    <p className="font-bold text-gray-400 text-sm sm:text-base">
                         Loading closing shift...
                     </p>
                 </div>
@@ -398,50 +408,51 @@ export default function CashierClosing() {
 
     return (
         <>
-            <div>
-                <div className="mb-6">
-                    <p className="text-xs font-black text-[#8A5F41] uppercase tracking-widest">
+            <div className="w-full overflow-x-hidden">
+                <div className="mb-5 sm:mb-6">
+                    <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                         Shift Closing
                     </p>
 
-                    <h1 className="text-4xl font-black text-[#4A2C2A] mt-1">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#4A2C2A] mt-1">
                         Closing Shift
                     </h1>
 
-                    <p className="text-sm text-gray-500 font-semibold mt-1">
+                    <p className="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
                         Rekap transaksi kasir dan cetak struk closing.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
                     <Card title="Total Orders" value={summary.totalOrders} />
                     <Card title="Total Sales" value={formatRupiah(summary.total)} />
                     <Card title="Cash Sales" value={formatRupiah(summary.cash)} />
-                    <Card
-                        title="Expected Cash"
-                        value={formatRupiah(summary.expectedCash)}
-                    />
+                    <Card title="Expected Cash" value={formatRupiah(summary.expectedCash)} />
                 </div>
 
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                    <div className="xl:col-span-2 bg-white border border-[#E7DED7] rounded-[2rem] p-5">
-                        <h2 className="text-xl font-black text-[#4A2C2A] mb-4">
+                <div className="grid grid-cols-1 2xl:grid-cols-3 gap-5 lg:gap-6">
+                    <div className="2xl:col-span-2 bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5">
+                        <h2 className="text-lg sm:text-xl font-black text-[#4A2C2A] mb-4">
                             Orders in This Shift
                         </h2>
 
                         <div className="overflow-x-auto">
-                            <table className="w-full min-w-[700px] text-sm">
+                            <table className="w-full min-w-[700px] text-xs sm:text-sm">
                                 <thead>
                                     <tr className="bg-[#FAFAFA] text-gray-500">
-                                        <th className="text-left px-5 py-4 font-black">Order</th>
-                                        <th className="text-left px-5 py-4 font-black">
+                                        <th className="text-left px-4 sm:px-5 py-3 sm:py-4 font-black">
+                                            Order
+                                        </th>
+                                        <th className="text-left px-4 sm:px-5 py-3 sm:py-4 font-black">
                                             Customer
                                         </th>
-                                        <th className="text-left px-5 py-4 font-black">
+                                        <th className="text-left px-4 sm:px-5 py-3 sm:py-4 font-black">
                                             Payment
                                         </th>
-                                        <th className="text-left px-5 py-4 font-black">Total</th>
-                                        <th className="text-left px-5 py-4 font-black">
+                                        <th className="text-left px-4 sm:px-5 py-3 sm:py-4 font-black">
+                                            Total
+                                        </th>
+                                        <th className="text-left px-4 sm:px-5 py-3 sm:py-4 font-black">
                                             Paid At
                                         </th>
                                     </tr>
@@ -461,25 +472,25 @@ export default function CashierClosing() {
                                         orders.map((order) => (
                                             <tr
                                                 key={order.id}
-                                                className="border-t border-[#F3F3F3]"
+                                                className="border-t border-[#F3F3F3] hover:bg-[#FCFAF8]"
                                             >
-                                                <td className="px-5 py-4 font-black">
+                                                <td className="px-4 sm:px-5 py-3 sm:py-4 font-black whitespace-nowrap">
                                                     #{order.id}
                                                 </td>
 
-                                                <td className="px-5 py-4 font-semibold">
+                                                <td className="px-4 sm:px-5 py-3 sm:py-4 font-semibold">
                                                     {order.customer_name || "Customer"}
                                                 </td>
 
-                                                <td className="px-5 py-4 font-semibold uppercase">
+                                                <td className="px-4 sm:px-5 py-3 sm:py-4 font-semibold uppercase whitespace-nowrap">
                                                     {order.payment_method}
                                                 </td>
 
-                                                <td className="px-5 py-4 font-black text-[#8A5F41]">
+                                                <td className="px-4 sm:px-5 py-3 sm:py-4 font-black text-[#8A5F41] whitespace-nowrap">
                                                     {formatRupiah(order.total_price)}
                                                 </td>
 
-                                                <td className="px-5 py-4 text-xs text-gray-400 font-bold">
+                                                <td className="px-4 sm:px-5 py-3 sm:py-4 text-xs text-gray-400 font-bold whitespace-nowrap">
                                                     {formatDate(order.paid_at || order.created_at)}
                                                 </td>
                                             </tr>
@@ -490,12 +501,12 @@ export default function CashierClosing() {
                         </div>
                     </div>
 
-                    <div className="bg-white border border-[#E7DED7] rounded-[2rem] p-5 h-fit">
-                        <div className="w-12 h-12 rounded-2xl bg-[#F6F1EC] text-[#8A5F41] flex items-center justify-center mb-4">
+                    <div className="bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5 h-fit">
+                        <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#F6F1EC] text-[#8A5F41] flex items-center justify-center mb-4">
                             <Wallet size={22} />
                         </div>
 
-                        <h2 className="text-xl font-black text-[#4A2C2A]">
+                        <h2 className="text-lg sm:text-xl font-black text-[#4A2C2A]">
                             Closing Form
                         </h2>
 
@@ -517,14 +528,8 @@ export default function CashierClosing() {
                             <div className="bg-[#FAFAFA] border border-[#E7DED7] rounded-2xl p-4 space-y-2">
                                 <Row label="Cash Sales" value={formatRupiah(summary.cash)} />
                                 <Row label="QRIS Sales" value={formatRupiah(summary.qris)} />
-                                <Row
-                                    label="Transfer Sales"
-                                    value={formatRupiah(summary.transfer)}
-                                />
-                                <Row
-                                    label="Difference"
-                                    value={formatRupiah(summary.difference)}
-                                />
+                                <Row label="Transfer Sales" value={formatRupiah(summary.transfer)} />
+                                <Row label="Difference" value={formatRupiah(summary.difference)} />
                             </div>
 
                             <div>
@@ -535,14 +540,14 @@ export default function CashierClosing() {
                                 <textarea
                                     value={note}
                                     onChange={(e) => setNote(e.target.value)}
-                                    className="mt-2 w-full px-4 py-3 rounded-2xl border border-[#E7DED7] outline-none font-semibold"
+                                    className="mt-2 w-full px-4 py-3 rounded-2xl border border-[#E7DED7] outline-none font-semibold text-sm resize-none"
                                     rows={3}
                                 />
                             </div>
 
                             <button
-                                onClick={printClosingReceipt}
-                                className="w-full px-5 py-3 rounded-2xl border border-[#E7DED7] font-black flex items-center justify-center gap-2"
+                                onClick={() => printClosingReceipt(activeShift)}
+                                className="w-full px-5 py-3 rounded-2xl border border-[#E7DED7] font-black flex items-center justify-center gap-2 text-sm sm:text-base hover:bg-[#FAFAFA]"
                             >
                                 <Printer size={17} />
                                 Preview / Print
@@ -551,7 +556,7 @@ export default function CashierClosing() {
                             <button
                                 onClick={closeShift}
                                 disabled={closing}
-                                className="w-full px-5 py-3 rounded-2xl bg-[#4A2C2A] text-white font-black flex items-center justify-center gap-2 disabled:opacity-50"
+                                className="w-full px-5 py-3 rounded-2xl bg-[#4A2C2A] text-white font-black flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 hover:bg-[#8A5F41]"
                             >
                                 {shouldLogout ? <LogOut size={17} /> : <Printer size={17} />}
                                 {closing
@@ -580,9 +585,12 @@ export default function CashierClosing() {
 
 function Card({ title, value }) {
     return (
-        <div className="bg-white border border-[#E7DED7] rounded-[2rem] p-5 shadow-sm">
-            <p className="text-sm text-gray-400 font-bold">{title}</p>
-            <h2 className="text-xl font-black text-[#4A2C2A] mt-1">
+        <div className="bg-white border border-[#E7DED7] rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5 shadow-sm">
+            <p className="text-xs sm:text-sm text-gray-400 font-bold">
+                {title}
+            </p>
+
+            <h2 className="text-lg sm:text-xl font-black text-[#4A2C2A] mt-1 break-words">
                 {value}
             </h2>
         </div>
@@ -598,7 +606,7 @@ function Input({ label, ...props }) {
 
             <input
                 {...props}
-                className="mt-2 w-full px-4 py-3 rounded-2xl border border-[#E7DED7] outline-none font-semibold"
+                className="mt-2 w-full px-4 py-3 rounded-2xl border border-[#E7DED7] outline-none font-semibold text-sm"
             />
         </div>
     );
@@ -606,9 +614,9 @@ function Input({ label, ...props }) {
 
 function Row({ label, value }) {
     return (
-        <div className="flex justify-between text-sm font-bold">
+        <div className="flex justify-between gap-3 text-xs sm:text-sm font-bold">
             <span className="text-gray-500">{label}</span>
-            <span className="text-[#4A2C2A]">{value}</span>
+            <span className="text-[#4A2C2A] text-right">{value}</span>
         </div>
     );
 }

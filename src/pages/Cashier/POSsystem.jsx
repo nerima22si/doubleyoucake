@@ -28,19 +28,11 @@ export default function POSSystem() {
     });
 
     const showDialog = ({ type = "info", title, message }) => {
-        setDialog({
-            open: true,
-            type,
-            title,
-            message,
-        });
+        setDialog({ open: true, type, title, message });
     };
 
     const closeDialog = () => {
-        setDialog((prev) => ({
-            ...prev,
-            open: false,
-        }));
+        setDialog((prev) => ({ ...prev, open: false }));
     };
 
     useEffect(() => {
@@ -81,14 +73,14 @@ export default function POSSystem() {
         const { data: productData, error: productError } = await supabase
             .from("products")
             .select(`
-        id,
-        name,
-        price,
-        image_url,
-        product_status,
-        category_id,
-        created_at
-      `)
+                id,
+                name,
+                price,
+                image_url,
+                product_status,
+                category_id,
+                created_at
+            `)
             .eq("product_status", "published")
             .order("created_at", { ascending: false });
 
@@ -319,34 +311,35 @@ export default function POSSystem() {
 
     return (
         <>
-            <div className="h-[calc(100vh-48px)] overflow-hidden flex gap-5">
+            <div className="min-h-[calc(100vh-32px)] lg:h-[calc(100vh-48px)] lg:overflow-hidden flex flex-col xl:flex-row gap-4 lg:gap-5">
                 <div className="flex-1 flex flex-col min-w-0">
-                    <div className="mb-5">
-                        <p className="text-xs font-black text-[#8A5F41] uppercase tracking-widest">
+                    <div className="mb-4 sm:mb-5">
+                        <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                             Point Of Sale
                         </p>
 
-                        <h1 className="text-4xl font-black text-[#4A2C2A] mt-1">
+                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#4A2C2A] mt-1">
                             POS System
                         </h1>
 
-                        <p className="text-sm text-gray-500 font-semibold mt-1">
-                            Pilih produk, proses pembayaran, cetak struk, atau simpan sebagai
-                            Open Bill.
+                        <p className="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
+                            Pilih produk, proses pembayaran, cetak struk, atau simpan sebagai Open Bill.
                         </p>
                     </div>
 
                     <ProductSearch search={search} setSearch={setSearch} />
 
-                    <CategoryTabs
-                        categories={categories}
-                        selectedCategoryId={selectedCategoryId}
-                        setSelectedCategoryId={setSelectedCategoryId}
-                    />
+                    <div className="overflow-x-auto">
+                        <CategoryTabs
+                            categories={categories}
+                            selectedCategoryId={selectedCategoryId}
+                            setSelectedCategoryId={setSelectedCategoryId}
+                        />
+                    </div>
 
-                    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 overflow-y-auto pr-2 pb-20">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 lg:overflow-y-auto pr-0 lg:pr-2 pb-6 lg:pb-20">
                         {filteredProducts.length === 0 ? (
-                            <div className="col-span-full bg-white border border-[#E7DED7] rounded-3xl p-10 text-center text-gray-400 font-bold">
+                            <div className="col-span-full bg-white border border-[#E7DED7] rounded-3xl p-8 sm:p-10 text-center text-gray-400 font-bold">
                                 Produk tidak ditemukan.
                             </div>
                         ) : (
@@ -361,17 +354,19 @@ export default function POSSystem() {
                     </div>
                 </div>
 
-                <CartPanel
-                    cart={cart}
-                    subtotal={subtotal}
-                    tax={tax}
-                    total={total}
-                    updateQty={updateQty}
-                    removeItem={removeItem}
-                    clearCart={clearCart}
-                    onOpenBill={handleOpenBill}
-                    onPay={() => setPaymentModal(true)}
-                />
+                <div className="w-full xl:w-[380px] 2xl:w-[420px] shrink-0">
+                    <CartPanel
+                        cart={cart}
+                        subtotal={subtotal}
+                        tax={tax}
+                        total={total}
+                        updateQty={updateQty}
+                        removeItem={removeItem}
+                        clearCart={clearCart}
+                        onOpenBill={handleOpenBill}
+                        onPay={() => setPaymentModal(true)}
+                    />
+                </div>
 
                 <PaymentModal
                     open={paymentModal}
