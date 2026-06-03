@@ -627,7 +627,7 @@ export default function DashboardAdmin() {
             title="Bahan Baku"
             desc={`${analytics.lowMaterials.length} bahan low stock`}
             icon={<AlertTriangle size={22} />}
-            onClick={() => navigate("/inventory")}
+            onClick={() => navigate("/management-inventory")}
           />
 
           <QuickAction
