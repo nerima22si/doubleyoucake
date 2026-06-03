@@ -355,54 +355,48 @@ const CustomerProducts = () => {
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
-                            {filteredProducts.map((product) => (
-                                <div
-                                    key={product.id}
-                                    className="group bg-white rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-[#EBD9C1]/70 hover:-translate-y-1"
-                                >
-                                    <div className="aspect-square overflow-hidden bg-[#FDF5E6]">
-                                        <img
-                                            src={product.image_url}
-                                            alt={product.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        />
-                                    </div>
-
-                                    <div className="p-3 md:p-5">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            {isCustomCake(product) && (
-                                                <span className="text-[10px] font-black px-2 py-1 rounded-full bg-[#FDF5E6] text-[#8B5E3C] border border-[#EBD9C1]">
-                                                    CUSTOM
-                                                </span>
-                                            )}
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-4">
+                                {filteredProducts.map((product) => (
+                                    <div
+                                        key={product.id}
+                                        className="group bg-white rounded-[1rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-[#EBD9C1]/70"
+                                    >
+                                        <div className="aspect-square overflow-hidden bg-[#FDF5E6]">
+                                            <img
+                                                src={product.image_url}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
                                         </div>
 
-                                        <h3 className="text-sm md:text-lg font-black line-clamp-2 leading-tight group-hover:text-[#8B5E3C] transition-colors">
-                                            {product.name}
-                                        </h3>
+                                        <div className="p-2.5 sm:p-3 lg:p-4">
+                                            <div className="flex items-center gap-1 mb-1.5">
+                                                {isCustomCake(product) && (
+                                                    <span className="px-2 py-0.5 rounded-full bg-[#FDF5E6] text-[#8B5E3C] text-[9px] sm:text-[10px] font-black">
+                                                        Custom
+                                                    </span>
+                                                )}
+                                            </div>
 
-                                        <p className="hidden md:block text-slate-500 text-sm font-medium mt-3 line-clamp-2">
-                                            {product.description ||
-                                                "Produk kue premium dari Doubleyou.Cake."}
-                                        </p>
+                                            <h3 className="font-black text-[#4A2C2A] text-xs sm:text-sm lg:text-base leading-tight line-clamp-2 min-h-[32px] sm:min-h-[38px]">
+                                                {product.name}
+                                            </h3>
 
-                                        <div className="flex items-center justify-between mt-4 md:mt-6 pt-3 md:pt-5 border-t border-[#F1E4D1]">
-                                            <span className="text-sm md:text-lg font-black text-[#8B5E3C]">
+                                            <p className="text-[#8B5E3C] font-black text-xs sm:text-sm lg:text-base mt-1.5 truncate">
                                                 {formatRupiah(product.price)}
-                                            </span>
+                                            </p>
 
                                             <button
                                                 onClick={() => handleAddToCart(product)}
-                                                className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-[#4A2C2A] text-white flex items-center justify-center hover:bg-gradient-to-r hover:from-[#4A2C2A] hover:via-[#8B5E3C] hover:to-[#C08B5C] transition-all duration-300 shadow-lg"
+                                                className="mt-2 sm:mt-3 w-full py-2 sm:py-2.5 rounded-full bg-[#4A2C2A] text-white text-[10px] sm:text-xs lg:text-sm font-black flex items-center justify-center gap-1.5 hover:bg-[#8B5E3C]"
                                             >
-                                                <Plus size={18} />
+                                                <Plus size={13} />
+                                                Tambah
                                             </button>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
                     )}
                 </div>
             </div>
