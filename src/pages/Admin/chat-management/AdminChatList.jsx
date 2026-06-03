@@ -77,10 +77,8 @@ const AdminChatList = () => {
                 (payload) => {
                     setRooms((prev) => {
                         const updatedRooms = prev.map((room) => {
-                            const updatedMessages = (
-                                room.chat_messages || []
-                            ).map((msg) =>
-                                msg.id === payload.new.id ? payload.new : msg
+                            const updatedMessages = (room.chat_messages || []).map(
+                                (msg) => (msg.id === payload.new.id ? payload.new : msg)
                             );
 
                             const lastMessage = getLatestMessage(updatedMessages);
@@ -167,31 +165,23 @@ const AdminChatList = () => {
 
             const customerIds = [
                 ...new Set(
-                    (roomData || [])
-                        .map((room) => room.customer_id)
-                        .filter(Boolean)
+                    (roomData || []).map((room) => room.customer_id).filter(Boolean)
                 ),
             ];
 
             let profilesMap = {};
 
             if (customerIds.length > 0) {
-                const { data: profilesData, error: profilesError } =
-                    await supabase
-                        .from("profiles")
-                        .select(
-                            "id, first_name, last_name, full_name, email, avatar_url"
-                        )
-                        .in("id", customerIds);
+                const { data: profilesData, error: profilesError } = await supabase
+                    .from("profiles")
+                    .select("id, first_name, last_name, full_name, email, avatar_url")
+                    .in("id", customerIds);
 
                 if (!profilesError) {
-                    profilesMap = (profilesData || []).reduce(
-                        (acc, profile) => {
-                            acc[profile.id] = profile;
-                            return acc;
-                        },
-                        {}
-                    );
+                    profilesMap = (profilesData || []).reduce((acc, profile) => {
+                        acc[profile.id] = profile;
+                        return acc;
+                    }, {});
                 }
             }
 
@@ -200,9 +190,7 @@ const AdminChatList = () => {
                 const lastMessage = getLatestMessage(messages);
 
                 const unreadCount = messages.filter(
-                    (msg) =>
-                        msg.sender_role === "customer" &&
-                        !msg.is_read
+                    (msg) => msg.sender_role === "customer" && !msg.is_read
                 ).length;
 
                 return {
@@ -275,14 +263,15 @@ const AdminChatList = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#FFFBF5] flex items-center justify-center px-6">
-                <div className="bg-white border border-[#EBD9C1] rounded-[2rem] px-10 py-12 flex flex-col items-center gap-5 shadow-xl">
-                    <div className="w-16 h-16 rounded-full border-[5px] border-[#EBD9C1] border-t-[#4A2C2A] animate-spin" />
+            <div className="min-h-screen bg-[#FFFBF5] flex items-center justify-center px-4">
+                <div className="bg-white border border-[#EBD9C1] rounded-[1.5rem] sm:rounded-[2rem] px-6 sm:px-10 py-8 sm:py-12 flex flex-col items-center gap-4 sm:gap-5 shadow-xl">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-[4px] sm:border-[5px] border-[#EBD9C1] border-t-[#4A2C2A] animate-spin" />
+
                     <div className="text-center">
-                        <h2 className="text-xl font-black text-[#4A2C2A]">
+                        <h2 className="text-base sm:text-xl font-black text-[#4A2C2A]">
                             Memuat Daftar Chat...
                         </h2>
-                        <p className="text-sm font-semibold text-[#6B4E4C] mt-1">
+                        <p className="text-xs sm:text-sm font-semibold text-[#6B4E4C] mt-1">
                             Mohon tunggu sebentar
                         </p>
                     </div>
@@ -292,26 +281,25 @@ const AdminChatList = () => {
     }
 
     return (
-        <div className="w-full min-h-[calc(100vh-120px)] bg-[#FFFBF5] rounded-[2rem] overflow-hidden border border-[#EBD9C1]">
-            <div className="bg-[#4A2C2A] text-white px-8 py-7">
-                <div className="flex items-center gap-4">
-                    <div className="relative w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center">
-                        <MessageCircle size={30} />
+        <div className="w-full min-h-[calc(100vh-100px)] sm:min-h-[calc(100vh-120px)] bg-[#FFFBF5] rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden border border-[#EBD9C1]">
+            <div className="bg-[#4A2C2A] text-white px-4 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-7">
+                <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="relative w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
+                        <MessageCircle size={22} className="sm:w-6 sm:h-6 lg:w-[30px] lg:h-[30px]" />
 
                         {totalUnreadMessages > 0 && (
-                            <span className="absolute -top-2 -right-2 min-w-[26px] h-[26px] px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center border-2 border-[#4A2C2A] shadow-lg">
-                                {totalUnreadMessages > 99
-                                    ? "99+"
-                                    : totalUnreadMessages}
+                            <span className="absolute -top-2 -right-2 min-w-[22px] sm:min-w-[26px] h-[22px] sm:h-[26px] px-1 sm:px-2 rounded-full bg-red-500 text-white text-[10px] sm:text-xs font-black flex items-center justify-center border-2 border-[#4A2C2A] shadow-lg">
+                                {totalUnreadMessages > 99 ? "99+" : totalUnreadMessages}
                             </span>
                         )}
                     </div>
 
-                    <div>
-                        <h1 className="text-3xl md:text-4xl font-black">
+                    <div className="min-w-0">
+                        <h1 className="text-xl sm:text-3xl lg:text-4xl font-black truncate">
                             Chat Customer
                         </h1>
-                        <p className="text-white/70 font-semibold mt-1">
+
+                        <p className="text-xs sm:text-sm lg:text-base text-white/70 font-semibold mt-1 truncate">
                             {totalUnreadRooms > 0
                                 ? `${totalUnreadRooms} chat belum dibaca`
                                 : "Daftar chat dari customer"}
@@ -320,63 +308,64 @@ const AdminChatList = () => {
                 </div>
             </div>
 
-            <div className="p-6">
-                <div className="mb-4 bg-white border border-[#EBD9C1] rounded-2xl px-5 py-4 flex items-center gap-3 shadow-sm">
-                    <Search size={20} className="text-slate-400" />
+            <div className="p-3 sm:p-5 lg:p-6">
+                <div className="mb-3 sm:mb-4 bg-white border border-[#EBD9C1] rounded-xl sm:rounded-2xl px-3 sm:px-5 py-3 sm:py-4 flex items-center gap-2 sm:gap-3 shadow-sm">
+                    <Search size={18} className="text-slate-400 shrink-0 sm:w-5 sm:h-5" />
+
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Cari nama customer, order, atau pesan..."
-                        className="w-full outline-none bg-transparent font-semibold text-[#4A2C2A] placeholder:text-slate-400"
+                        className="w-full outline-none bg-transparent font-semibold text-[#4A2C2A] placeholder:text-slate-400 text-xs sm:text-sm lg:text-base"
                     />
                 </div>
 
-                <div className="mb-6 flex flex-wrap gap-2">
-                    {FILTERS.map((item) => {
-                        const active = filter === item.value;
+                <div className="mb-4 sm:mb-6 w-full overflow-x-auto pb-1">
+                    <div className="flex gap-2 min-w-max">
+                        {FILTERS.map((item) => {
+                            const active = filter === item.value;
 
-                        return (
-                            <button
-                                key={item.value}
-                                onClick={() => setFilter(item.value)}
-                                className={`
-                                    flex items-center gap-2 px-4 py-2 rounded-full text-sm font-black border transition-all duration-200
-                                    ${active
-                                        ? "bg-[#4A2C2A] text-white border-[#4A2C2A] shadow-md"
-                                        : "bg-white text-[#4A2C2A] border-[#EBD9C1] hover:bg-[#FDF5E6]"
-                                    }
-                                `}
-                            >
-                                {item.value === "unread" && <Inbox size={15} />}
-                                {item.value === "read" && <MailOpen size={15} />}
-
-                                <span>{item.label}</span>
-
-                                {item.value === "unread" &&
-                                    totalUnreadMessages > 0 && (
-                                        <span
-                                            className={`
-                                                min-w-[20px] h-[20px] px-1 rounded-full text-[10px] font-black flex items-center justify-center
-                                                ${active
-                                                    ? "bg-white text-[#4A2C2A]"
-                                                    : "bg-red-500 text-white"
-                                                }
-                                            `}
-                                        >
-                                            {totalUnreadMessages > 99
-                                                ? "99+"
-                                                : totalUnreadMessages}
-                                        </span>
+                            return (
+                                <button
+                                    key={item.value}
+                                    onClick={() => setFilter(item.value)}
+                                    className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-black border transition-all duration-200 whitespace-nowrap ${active
+                                            ? "bg-[#4A2C2A] text-white border-[#4A2C2A] shadow-md"
+                                            : "bg-white text-[#4A2C2A] border-[#EBD9C1] hover:bg-[#FDF5E6]"
+                                        }`}
+                                >
+                                    {item.value === "unread" && (
+                                        <Inbox size={14} className="sm:w-[15px] sm:h-[15px]" />
                                     )}
-                            </button>
-                        );
-                    })}
+                                    {item.value === "read" && (
+                                        <MailOpen size={14} className="sm:w-[15px] sm:h-[15px]" />
+                                    )}
+
+                                    <span>{item.label}</span>
+
+                                    {item.value === "unread" &&
+                                        totalUnreadMessages > 0 && (
+                                            <span
+                                                className={`min-w-[18px] sm:min-w-[20px] h-[18px] sm:h-[20px] px-1 rounded-full text-[9px] sm:text-[10px] font-black flex items-center justify-center ${active
+                                                        ? "bg-white text-[#4A2C2A]"
+                                                        : "bg-red-500 text-white"
+                                                    }`}
+                                            >
+                                                {totalUnreadMessages > 99
+                                                    ? "99+"
+                                                    : totalUnreadMessages}
+                                            </span>
+                                        )}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                     {filteredRooms.length === 0 ? (
-                        <div className="bg-white rounded-[2rem] border border-[#EBD9C1] p-10 text-center shadow-sm">
-                            <p className="font-bold text-slate-400">
+                        <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] border border-[#EBD9C1] p-6 sm:p-10 text-center shadow-sm">
+                            <p className="font-bold text-slate-400 text-xs sm:text-sm lg:text-base">
                                 Tidak ada chat pada filter ini.
                             </p>
                         </div>
@@ -384,22 +373,14 @@ const AdminChatList = () => {
                         filteredRooms.map((room) => (
                             <button
                                 key={room.id}
-                                onClick={() =>
-                                    navigate(`/admin/chat/${room.id}`)
-                                }
-                                className={`
-                                    w-full bg-white border
-                                    rounded-[2rem] p-5 flex items-center justify-between
-                                    hover:shadow-xl hover:scale-[1.005]
-                                    transition-all duration-300 ease-in-out
-                                    ${room.unreadCount > 0
+                                onClick={() => navigate(`/admin/chat/${room.id}`)}
+                                className={`w-full bg-white border rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] p-3 sm:p-4 lg:p-5 flex items-center justify-between gap-3 hover:shadow-xl hover:scale-[1.005] transition-all duration-300 ease-in-out ${room.unreadCount > 0
                                         ? "border-[#4A2C2A] shadow-md"
                                         : "border-[#EBD9C1]"
-                                    }
-                                `}
+                                    }`}
                             >
-                                <div className="flex items-center gap-4 min-w-0">
-                                    <div className="relative w-16 h-16 rounded-full bg-[#FDF5E6] border-2 border-[#EBD9C1] text-[#4A2C2A] flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+                                <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+                                    <div className="relative w-11 h-11 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full bg-[#FDF5E6] border-2 border-[#EBD9C1] text-[#4A2C2A] flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
                                         {room.customer?.avatar_url ? (
                                             <img
                                                 src={room.customer.avatar_url}
@@ -407,7 +388,7 @@ const AdminChatList = () => {
                                                 className="w-full h-full object-cover"
                                             />
                                         ) : (
-                                            <span className="text-2xl font-black">
+                                            <span className="text-base sm:text-xl lg:text-2xl font-black">
                                                 {getCustomerName(room)
                                                     .charAt(0)
                                                     .toUpperCase()}
@@ -415,10 +396,10 @@ const AdminChatList = () => {
                                         )}
                                     </div>
 
-                                    <div className="text-left min-w-0">
-                                        <div className="flex items-center gap-2 flex-wrap">
+                                    <div className="text-left min-w-0 flex-1">
+                                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                             <h2
-                                                className={`text-lg text-[#4A2C2A] ${room.unreadCount > 0
+                                                className={`text-sm sm:text-base lg:text-lg text-[#4A2C2A] truncate ${room.unreadCount > 0
                                                         ? "font-black"
                                                         : "font-bold"
                                                     }`}
@@ -426,25 +407,25 @@ const AdminChatList = () => {
                                                 {getCustomerName(room)}
                                             </h2>
 
-                                            <span className="text-[#8B5E3C] font-black">
+                                            <span className="hidden sm:inline text-[#8B5E3C] font-black">
                                                 •
                                             </span>
 
-                                            <span className="text-sm font-black text-[#8B5E3C]">
+                                            <span className="text-[10px] sm:text-xs lg:text-sm font-black text-[#8B5E3C] truncate">
                                                 {room.order_id
                                                     ? `Order #${room.order_id}`
                                                     : "Belum ada order"}
                                             </span>
 
                                             {room.unreadCount > 0 && (
-                                                <span className="px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-black">
+                                                <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-red-50 text-red-600 text-[10px] sm:text-xs font-black">
                                                     Pesan Baru
                                                 </span>
                                             )}
                                         </div>
 
                                         <p
-                                            className={`text-sm mt-1 truncate max-w-[700px] ${room.unreadCount > 0
+                                            className={`text-xs sm:text-sm mt-1 truncate max-w-[180px] sm:max-w-[350px] md:max-w-[520px] lg:max-w-[700px] ${room.unreadCount > 0
                                                     ? "text-[#4A2C2A] font-black"
                                                     : "text-slate-500 font-semibold"
                                                 }`}
@@ -452,27 +433,27 @@ const AdminChatList = () => {
                                             {getLastMessageText(room)}
                                         </p>
 
-                                        <p className="text-xs text-slate-400 mt-2 font-semibold">
+                                        <p className="text-[10px] sm:text-xs text-slate-400 mt-1.5 sm:mt-2 font-semibold truncate">
                                             {room.lastMessage
-                                                ? formatDate(
-                                                    room.lastMessage
-                                                        .created_at
-                                                )
+                                                ? formatDate(room.lastMessage.created_at)
                                                 : formatDate(room.created_at)}
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-3 shrink-0">
+                                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                                     {room.unreadCount > 0 && (
-                                        <span className="min-w-[28px] h-[28px] px-2 rounded-full bg-[#4A2C2A] text-white text-xs font-black flex items-center justify-center shadow-md">
+                                        <span className="min-w-[24px] sm:min-w-[28px] h-[24px] sm:h-[28px] px-1.5 sm:px-2 rounded-full bg-[#4A2C2A] text-white text-[10px] sm:text-xs font-black flex items-center justify-center shadow-md">
                                             {room.unreadCount > 99
                                                 ? "99+"
                                                 : room.unreadCount}
                                         </span>
                                     )}
 
-                                    <ChevronRight className="text-[#4A2C2A]" />
+                                    <ChevronRight
+                                        size={18}
+                                        className="text-[#4A2C2A] sm:w-5 sm:h-5"
+                                    />
                                 </div>
                             </button>
                         ))
