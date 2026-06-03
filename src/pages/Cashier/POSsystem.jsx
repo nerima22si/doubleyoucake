@@ -7,9 +7,15 @@ import ProductCard from "./components/POS/ProductCard";
 import CartPanel from "./components/POS/CartPanel";
 import PaymentModal from "./components/POS/PaymentModal";
 import AppDialog from "../../components/AppDialog";
-import { printReceipt } from "./components/POS/ReceiptPrint";
 
 const generateOrderId = () => `ORD-${Date.now()}`;
+
+const formatRupiah = (value) =>
+    new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(Number(value || 0));
 
 export default function POSSystem() {
     const [products, setProducts] = useState([]);
@@ -19,6 +25,7 @@ export default function POSSystem() {
     const [cart, setCart] = useState([]);
     const [paymentModal, setPaymentModal] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [receiptData, setReceiptData] = useState(null);
 
     const [dialog, setDialog] = useState({
         open: false,
@@ -28,19 +35,11 @@ export default function POSSystem() {
     });
 
     const showDialog = ({ type = "info", title, message }) => {
-        setDialog({
-            open: true,
-            type,
-            title,
-            message,
-        });
+        setDialog({ open: true, type, title, message });
     };
 
     const closeDialog = () => {
-        setDialog((prev) => ({
-            ...prev,
-            open: false,
-        }));
+        setDialog((prev) => ({ ...prev, open: false }));
     };
 
     useEffect(() => {
@@ -196,6 +195,14 @@ export default function POSSystem() {
         if (error) throw error;
     };
 
+    const printThermalReceipt = (data) => {
+        setReceiptData(data);
+
+        setTimeout(() => {
+            window.print();
+        }, 300);
+    };
+
     const handleOpenBill = async () => {
         try {
             if (cart.length === 0) {
@@ -269,6 +276,7 @@ export default function POSSystem() {
             } = await supabase.auth.getUser();
 
             const orderId = generateOrderId();
+            const currentCart = [...cart];
 
             const { error: orderError } = await supabase.from("orders").insert({
                 id: orderId,
@@ -287,15 +295,16 @@ export default function POSSystem() {
 
             await insertOrderItems(orderId);
 
-            printReceipt({
+            printThermalReceipt({
                 orderId,
-                cart,
+                cart: currentCart,
                 subtotal,
                 tax,
                 total,
                 paymentMethod,
                 cashReceived,
                 change,
+                date: new Date(),
             });
 
             setCart([]);
@@ -305,7 +314,7 @@ export default function POSSystem() {
             showDialog({
                 type: "success",
                 title: "Transaksi Berhasil",
-                message: "Transaksi POS berhasil disimpan dan struk siap dicetak.",
+                message: "Transaksi POS berhasil disimpan dan struk thermal siap dicetak.",
             });
         } catch (error) {
             showDialog({
@@ -320,9 +329,40 @@ export default function POSSystem() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row gap-4 lg:gap-5 min-h-[calc(100vh-100px)]">
-                <div className="flex-1 flex flex-col min-w-0">
-                    <div className="mb-4 sm:mb-5">
+            <style>
+                {`
+                    @media print {
+                        body * {
+                            visibility: hidden !important;
+                        }
+
+                        #thermal-receipt,
+                        #thermal-receipt * {
+                            visibility: visible !important;
+                        }
+
+                        #thermal-receipt {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 80mm;
+                            padding: 8px;
+                            background: white;
+                            color: black;
+                            font-family: Arial, sans-serif;
+                        }
+
+                        @page {
+                            size: 80mm auto;
+                            margin: 0;
+                        }
+                    }
+                `}
+            </style>
+
+            <div className="h-[calc(100vh-100px)] flex flex-col md:flex-row gap-4 lg:gap-5 overflow-hidden">
+                <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+                    <div className="mb-4 sm:mb-5 shrink-0">
                         <p className="text-[10px] sm:text-xs font-black text-[#8A5F41] uppercase tracking-widest">
                             Point Of Sale
                         </p>
@@ -336,9 +376,11 @@ export default function POSSystem() {
                         </p>
                     </div>
 
-                    <ProductSearch search={search} setSearch={setSearch} />
+                    <div className="shrink-0">
+                        <ProductSearch search={search} setSearch={setSearch} />
+                    </div>
 
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto shrink-0">
                         <CategoryTabs
                             categories={categories}
                             selectedCategoryId={selectedCategoryId}
@@ -346,7 +388,7 @@ export default function POSSystem() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 overflow-y-auto pr-0 md:pr-2 pb-6">
+                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 overflow-y-auto pr-0 md:pr-2 pb-6">
                         {filteredProducts.length === 0 ? (
                             <div className="col-span-full bg-white border border-[#E7DED7] rounded-3xl p-8 sm:p-10 text-center text-gray-400 font-bold">
                                 Produk tidak ditemukan.
@@ -363,7 +405,7 @@ export default function POSSystem() {
                     </div>
                 </div>
 
-                <div className="w-full md:w-[350px] lg:w-[380px] 2xl:w-[420px] shrink-0 sticky top-6 self-start">
+                <div className="w-full md:w-[350px] lg:w-[380px] 2xl:w-[420px] shrink-0 h-full">
                     <CartPanel
                         cart={cart}
                         subtotal={subtotal}
@@ -386,6 +428,8 @@ export default function POSSystem() {
                 />
             </div>
 
+            {receiptData && <ThermalReceipt data={receiptData} />}
+
             <AppDialog
                 open={dialog.open}
                 type={dialog.type}
@@ -396,5 +440,84 @@ export default function POSSystem() {
                 onCancel={closeDialog}
             />
         </>
+    );
+}
+
+function ThermalReceipt({ data }) {
+    return (
+        <div id="thermal-receipt" className="hidden print:block">
+            <div style={{ textAlign: "center" }}>
+                <h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>
+                    Double You Cake
+                </h2>
+                <p style={{ margin: 0, fontSize: "11px" }}>
+                    Thermal Receipt
+                </p>
+            </div>
+
+            <div style={{ borderTop: "1px dashed #000", margin: "8px 0" }} />
+
+            <RowPrint label="Order" value={`#${data.orderId}`} />
+            <RowPrint
+                label="Date"
+                value={new Date(data.date).toLocaleString("id-ID")}
+            />
+            <RowPrint label="Payment" value={data.paymentMethod?.toUpperCase()} />
+
+            <div style={{ borderTop: "1px dashed #000", margin: "8px 0" }} />
+
+            {(data.cart || []).map((item) => (
+                <div key={item.id} style={{ fontSize: "12px", marginBottom: "6px" }}>
+                    <div style={{ fontWeight: "bold" }}>{item.name}</div>
+                    <RowPrint
+                        label={`${item.quantity} x ${formatRupiah(item.price)}`}
+                        value={formatRupiah(Number(item.price || 0) * item.quantity)}
+                    />
+                </div>
+            ))}
+
+            <div style={{ borderTop: "1px dashed #000", margin: "8px 0" }} />
+
+            <RowPrint label="Subtotal" value={formatRupiah(data.subtotal)} />
+            <RowPrint label="Tax" value={formatRupiah(data.tax)} />
+            <RowPrint label="Total" value={formatRupiah(data.total)} bold />
+
+            {data.paymentMethod === "cash" && (
+                <>
+                    <RowPrint
+                        label="Cash"
+                        value={formatRupiah(data.cashReceived)}
+                    />
+                    <RowPrint
+                        label="Change"
+                        value={formatRupiah(data.change)}
+                    />
+                </>
+            )}
+
+            <div style={{ borderTop: "1px dashed #000", margin: "8px 0" }} />
+
+            <p style={{ textAlign: "center", fontSize: "11px", marginTop: "10px" }}>
+                Terima kasih
+            </p>
+        </div>
+    );
+}
+
+function RowPrint({ label, value, bold = false }) {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "8px",
+                fontSize: "12px",
+                fontWeight: bold ? "bold" : "normal",
+                marginBottom: "4px",
+            }}
+        >
+            <span>{label}</span>
+            <span style={{ textAlign: "right" }}>{value}</span>
+        </div>
     );
 }
