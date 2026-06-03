@@ -371,7 +371,7 @@ export default function CashierClosing() {
                     message: "Shift berhasil ditutup dan struk closing siap dicetak.",
                 });
 
-                navigate("/cashier/dashboard");
+                navigate("/login");
             }
         } catch (error) {
             showDialog({
