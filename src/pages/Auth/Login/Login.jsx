@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../../lib/supabase";
-
 import { Mail, Lock } from "lucide-react";
 
 export default function Login() {
@@ -23,9 +22,7 @@ export default function Login() {
   };
 
   const redirectByRole = (role) => {
-    const cleanRole = String(role || "customer")
-      .trim()
-      .toLowerCase();
+    const cleanRole = String(role || "customer").trim().toLowerCase();
 
     if (cleanRole === "admin") {
       navigate("/dashboard/admin", { replace: true });
@@ -33,7 +30,7 @@ export default function Login() {
     }
 
     if (cleanRole === "cashier") {
-      navigate("dashboard/cashier", { replace: true });
+      navigate("/dashboard/cashier", { replace: true });
       return;
     }
 
@@ -66,9 +63,7 @@ export default function Login() {
         .eq("id", user.id)
         .maybeSingle();
 
-      if (profileError) {
-        throw profileError;
-      }
+      if (profileError) throw profileError;
 
       redirectByRole(profile?.role);
     } catch (err) {
@@ -98,7 +93,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#faf7f3] flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-[#f1e7dd] p-8">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-[#f1e7dd] p-6 sm:p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black text-[#4A2C2A]">
             Login
@@ -142,6 +137,15 @@ export default function Login() {
               required
               className="w-full outline-none text-sm"
             />
+          </div>
+
+          <div className="flex justify-end">
+            <Link
+              to="/forgot-password"
+              className="text-sm font-semibold text-[#8A5F41] hover:underline"
+            >
+              Lupa kata sandi?
+            </Link>
           </div>
 
           <button

@@ -8,7 +8,7 @@ import MainLayoutCustomerLogin from "./Layout/customer/MainLayoutsCust";
 /* AUTH */
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
-import Forgot from "./pages/Auth/Login/Forgot";
+import Forgot from "./pages/Auth/Forgot";
 import AuthCallback from "./pages/Auth/AuthCallback";
 
 /* ERROR */
@@ -56,6 +56,7 @@ import CashierDashboard from "./pages/Cashier/CashierDashboard";
 import CashierOrders from "./pages/Cashier/CashierOrders";
 import CashierClosing from "./pages/Cashier/CashierClosing";
 import POSSystem from "./pages/Cashier/POSsystem";
+import ForgotPassword from "./pages/Auth/Forgot";
 
 function App() {
   return (
@@ -70,7 +71,7 @@ function App() {
       {/* AUTH */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/forgot" element={<Forgot />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
 
       {/* ADMIN */}
